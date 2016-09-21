@@ -1,5 +1,5 @@
 import  assert from 'assert';
-import Type from '../src/UnionType';
+import Type from '../src/Union';
 
 function isNumber(n) { return typeof n === 'number'; }
 function T() { return true; }

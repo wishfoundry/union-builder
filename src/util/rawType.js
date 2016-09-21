@@ -10,5 +10,5 @@ var toStr = Object.prototype.toString;
  * @returns {*}
  */
 export default function rawType(value) {
-	return toStr.call(value);
+    return toStr.call(value);
 }

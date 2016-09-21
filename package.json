@@ -1,10 +1,19 @@
 {
   "name": "union-builder",
   "version": "0.0.1",
+  "license": "mit",
+  "author": "Ben Greer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wishfoundry/union-builder"
+  },
+  "homepage": "",
   "dependencies": {
     "ramda": "^0.22.1",
     "symbol-observable": "^1.0.2"
   },
+  "main": "./dist/union.min.js",
+  "jsnext:main": "./src/index.js",
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
@@ -25,12 +34,13 @@
     "mocha-logger": "^1.0.4",
     "mocha-webpack": "^0.6.0",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.15.0"
+    "webpack-dev-server": "^1.15.0",
+    "xyz": "^1.0.1"
   },
   "scripts": {
     "test": "NODE_ENV=test mocha --compilers js:babel-register",
-    "test2": "NODE_ENV=test node_modules/.bin/webpack && node_modules/.bin/mocha ./ui\\.html/scripts/arke/test-bundle.generated.js",
-    "test:watch": "NODE_ENV=test node_modules/.bin/mocha-webpack --webpack-config webpack.config.js ./src/tests.js --watch",
-    "test:lint": "node_modules/.bin/eslint src --ignore-pattern test"
+    "test:lint": "node_modules/.bin/eslint src --ignore-pattern test",
+    "build": "NODE_ENV=production node_modules/.bin/webpack",
+    "publish": "node_modules/.bin/xyz -i minor"
   }
 }

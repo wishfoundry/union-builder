@@ -6,7 +6,6 @@ import call from './util/call';
 import {toWordsOrdinal} from './num2word';
 import {
     getMatcherForPrimitive,
-    isFunction,
     isString,
     isNumber,
     isArray,

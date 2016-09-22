@@ -41,6 +41,6 @@
     "test": "NODE_ENV=test mocha --compilers js:babel-register",
     "test:lint": "node_modules/.bin/eslint src --ignore-pattern test",
     "build": "NODE_ENV=production node_modules/.bin/webpack",
-    "publish": "node_modules/.bin/xyz -i minor"
+    "_publish": "node_modules/.bin/xyz -i minor"
   }
 }

@@ -6,6 +6,7 @@ import call from './util/call';
 import {toWordsOrdinal} from './num2word';
 import {
     getMatcherForPrimitive,
+    isNotDefined,
     isString,
     isNumber,
     isArray,
@@ -109,7 +110,7 @@ function buildType(baseType, descriptor) {
 
 
     eachKey(descriptor, (key) => {
-        var subTypeFactory = buildSubType(descriptor[key], MyUnionType, key);
+        var subTypeFactory = buildSubType(descriptor[key], MyUnionType, key, isMatchingType);
         MyUnionType["new" + capitalize(key)] = subTypeFactory;
         MyUnionType[key] = subTypeFactory;
     });
@@ -117,11 +118,14 @@ function buildType(baseType, descriptor) {
     return MyUnionType;
 }
 
-function buildSubType(fields, parentClass, subTypeName) {
+function buildSubType(fields, parentClass, subTypeName, isParentType) {
     var isArgsArray = isArray(fields);
     var keys = Object.keys(fields);
     var validators = keys.reduce(function(all, key) {
-        all[key] = getMatcherForPrimitive(fields[key]) || fields[key];
+        // if value is a primitive class, get the mathcer function for it
+        // else, we assume the value is the validator func
+        // if value is undefined, we assume the user is building a recursive type
+        all[key] = getMatcherForPrimitive(fields[key]) || fields[key] || isParentType;
         return all;
     }, {});
 

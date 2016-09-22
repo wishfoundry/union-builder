@@ -53,7 +53,8 @@ for (let value of point) {
 }
 //Using the destructuring assignment in ECMAScript 6 it is possible to
 //concisely extract all fields of a type.
-var [name, age, favoriteShape] = person;
+var [x, y] = point;
+var { x, y } = point2; 
 ```
 
 
@@ -103,7 +104,7 @@ function myValidator(propValue, propName, instanceName, instanceObj) {
 	
 	//additionally, very precise error messages can be thrown
 	if (propValue === Infinity) {
-		throw new TypeError(`#{instanceName} expected an Integer for property #{propName}, but got: #{propValue}`)
+		throw new TypeError(`#{instanceName} expected an integer for property #{propName}, but got: #{propValue}`)
 	}
 }
 
@@ -117,6 +118,35 @@ type.x === 0
 
 ### Usage in flux actions
 
+#### detecting type
+```javascript
+var Action = Union({
+	Create: [],
+	Delete: []
+});
+
+function reducer(state, action) {
+	//detect if this is a union type we know how to handle 
+	if (!Action.isType(action))
+		return state;
+
+	//detect if this is a specific subtype
+	if (Action.Create.isType(action))
+		return addItem(state);
+
+	if (Action.Delete.isType(action))
+    		return removeItem(state);
+}
+
+// it is also possible to perform high level checks
+function reducer(state, action) {
+	if(!Union.isUnionType(action)) {
+		throw new TypeError("conventions require that all actions are a type of Union")
+	}
+}
+
+```
+
 #### using case switch
 ```javascript
 var Actions = Union({
@@ -124,12 +154,13 @@ var Actions = Union({
 	Create: [isAny],
 	Delete: [isAny]
 });
+
 //case takes 2 arguments, but it also curried. so we can start with only 1
 const updateState = Actions.case({
-                    		Update: ({x, y}) => Object.assign(state, {x, y}),
-                    		Create: () => ({x:0, y:0}),
-                    		Delete: () => ({})
-                    	})
+    Update: ({x, y}) => Object.assign(state, {x, y}),
+    Create: () => ({x:0, y:0}),
+    Delete: () => ({})
+})
 
 function reducer(state, action) {
 	return updateState(action);
@@ -148,7 +179,7 @@ function reducer(state, action) {
 
 ### Instance methods
 
-Furthermore it is possible to add instance methods. A Maybe type with a map
+It is also possible to add shared methods to the instances. A Maybe type with a map
 function could thus be defined as follows:
 
 ```javascript
@@ -160,6 +191,7 @@ Maybe.prototype.map = function(fn) {
     Just: (v) => Maybe.Just(fn(v))
   }, this);
 };
+
 var just = Maybe.Just(1);
 var nothing = Maybe.Nothing();
 nothing.map(add(1)); // => Nothing

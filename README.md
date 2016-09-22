@@ -104,7 +104,7 @@ function myValidator(propValue, propName, instanceName, instanceObj) {
 	
 	//additionally, very precise error messages can be thrown
 	if (propValue === Infinity) {
-		throw new TypeError(`#{instanceName} expected an integer for property #{propName}, but got: #{propValue}`)
+		throw new TypeError(`${instanceName} expected an integer for property ${propName}, but got: ${propValue}`)
 	}
 }
 

@@ -30,8 +30,8 @@ const RESERVED = [
 
 let DISABLE_VALIDATION = false;
 
-let ErrorMsg = "bad value {thing} passed as {position} argument to constructor {name}";
-let ListErrorMsg = 'item at {position} location in List has wrong value {value}';
+let ErrorMsg = "bad value {thing} passed as {position} argument to {name} constructor";
+let ListErrorMsg = 'item at {position} location in List has wrong value of {value}';
 
 
 function BaseUnionType() {

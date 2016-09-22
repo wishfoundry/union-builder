@@ -72,14 +72,14 @@ describe('union type', function() {
 
         assert.throws(function() {
             Shape([Point.Point(1,2), Point.Point('3',1)]);
-        }, /bad value '3' passed as first argument to constructor Point/);
+        }, /bad value '3' passed as first argument to Point constructor/);
 
         // Shape([Point.Point(1,2), Point.Point(1,2)]);
         // Shape([]);
 
         assert.throws(function(){
             Shape("not a List");
-        }, /bad value 'not a List' passed as first argument to constructor List/);
+        }, /bad value 'not a List' passed as first argument to List constructor/);
     });
     it('nest types', function() {
         var Point = Type({Point: [isNumber, isNumber]});
@@ -290,5 +290,19 @@ describe('union type', function() {
             });
             assert.equal(toString(list), '1 : 2 : 3 : Nil');
         });
+    });
+
+    describe('recursive data types', function() {
+        var List = Type({Nil: [], Cons: [T, List]});
+        var {Point, PointXY} = Type({
+            Point: {x: Number, y: Number, z: Number},
+            PointXY: [Number, Number]
+        });
+
+        it('can create single element list', function() {
+            // var list = List.Cons(1, List.Nil());
+            var point = PointXY(1,2,3,4)
+        });
+
     });
 });

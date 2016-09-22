@@ -68,7 +68,7 @@ describe('union type', function() {
 
         assert.throws(function(){
             Shape([1, Point.Point(1,2), 3]);
-        }, /item at first location in List has wrong value 1/);
+        }, /item at first location in List has wrong value of 1/);
 
         assert.throws(function() {
             Shape([Point.Point(1,2), Point.Point('3',1)]);
@@ -99,7 +99,7 @@ describe('union type', function() {
             Shape.Rectangle(1, Length.Length(12));
         }, /error/);
     });
-    describe('records', function() {
+    describe('Record types', function() {
         it('can create types from object descriptions', function() {
             var Point = Type({Point: {x: Number, y: Number}});
         });
@@ -116,6 +116,24 @@ describe('union type', function() {
                 var p = Point.Point(1, 2);
             }, /bad value/);
 
+        });
+
+
+        it('can create a record with default values, and include all extra unvalidated values', function() {
+            function defaultNum(propValue, propName, instanceName, instanceObj) {
+                if(!propValue) {
+                    instanceObj[propName] = 0;
+                }
+                return true;
+            }
+            var {Point} = Type({
+                Point: {x: defaultNum, y: Number}
+            });
+            var point = Point({y: 10, z:10});
+
+            assert.equal(point.x, 0, "cannot create a default value");
+            assert.equal(point.y, 10, "cannot create a primitive value");
+            assert.equal(point.z, 10, "cannot include and extra value");
         });
     });
     describe('type methods', function() {

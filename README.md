@@ -1,20 +1,20 @@
 # union-builder
 A library for building and using union data types(a.k.a algebraic data types) in JS
 
-## TOC
-
-
 ## why
 
-after using similar libraries such as [union-type](https://github.com/paldepind/union-type) in my flux/redux stores, I found that I often needed something that could do just a little more. This library is the fruit of that effort with the following advantages:
-* easy/automatic to use with JS native types
-* able to  validate inputs, or provide default values
-* able to validate related inputs or pairs, not just 1 input at a time
-* easy to extend using simple pure function validators, and have enough context to yield informative/debuggable errors
-* able to categorize union in 3 layers
-    1. is any type of union
-    2. is one of several unions
-    3. is an exact type
+after using similar libraries such as [union-type](https://github.com/paldepind/union-type) in my flux/redux stores, 
+I found that I often needed something that could do just a little more. 
+
+This library is designed with the following goals:
+* be able to, when given bad input values, produce higher quality human readable error messages with more context 
+* to have a large built in set of validators, but also be support any user supplied validator with the same level of quality and contextual errors
+* to be able to provide default values, instead of just throw an error
+* to be able to check union types:
+    * check if 'ANY' type of union
+    * check if 'ONE OF' a specific set of unions
+    * check if 'A' specific subtype
+
 
 
 ## Creating a union type factory
@@ -108,12 +108,16 @@ function myValidator(propValue, propName, instanceName, instanceObj) {
 	}
 }
 
-var Type = Union({
-	Type: {x: myValidator}
+var Record = Union({
+	WithX: {x: myValidator},
+	WithY: {x:myValidator, y:Number}
 });
 
-var type = Type({x: null});
-type.x === 0
+var rec = new Record.WithX({y: 10 });
+rec.x === 0;
+rec.y === 10;
+
+
 ```
 
 ### Usage in flux actions

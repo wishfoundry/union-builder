@@ -122,10 +122,11 @@ function buildSubType(fields, parentClass, subTypeName, isParentType) {
     var isArgsArray = isArray(fields);
     var keys = Object.keys(fields);
     var validators = keys.reduce(function(all, key) {
-        // if value is a primitive class, get the mathcer function for it
+        var value = fields[key];
+        // if value is a primitive class, get the matcher function for it
         // else, we assume the value is the validator func
         // if value is undefined, we assume the user is building a recursive type
-        all[key] = getMatcherForPrimitive(fields[key]) || fields[key] || isParentType;
+        all[key] = getMatcherForPrimitive(value) || (isNotDefined(value) ? isParentType : value);
         return all;
     }, {});
 

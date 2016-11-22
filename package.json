@@ -1,6 +1,6 @@
 {
   "name": "union-builder",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "mit",
   "author": "Ben Greer",
   "repository": {
@@ -12,8 +12,7 @@
     "ramda": "^0.22.1",
     "symbol-observable": "^1.0.2"
   },
-  "main": "./dist/union.min.js",
-  "jsnext:main": "./src/index.js",
+  "main": "./lib/union.js",
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",

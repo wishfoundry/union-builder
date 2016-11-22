@@ -18,7 +18,7 @@ var GLOBALS = {
 };
 
 var config = {
-    entry: './src/index.js',
+    entry: './src/Union.js',
     devtool: env === PROD ? 'source-map' : 'eval',
     module: {
         loaders: [
@@ -30,14 +30,15 @@ var config = {
         ]
     },
     output: {
-        filename: "union.min.js",
-        path: __dirname + "/dist",
+        filename: "union.js",
+        path: __dirname + "/lib",
+        libraryTarget: "commonjs2"
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin(GLOBALS), //Tells React to build in prod mode. https://facebook.github.io/react/downloads.html
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.optimize.DedupePlugin()
+        // new webpack.optimize.UglifyJsPlugin()
     ],
     devServer: {
         port: 2020

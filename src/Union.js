@@ -138,6 +138,10 @@ function buildSubType(fields, parentClass, subTypeName, isParentType) {
             values = values[0];
         }
 
+        if (!isArgsArray && typeof values != 'object') {
+            return throwMissingObject(keys);
+        }
+
         if (DISABLE_VALIDATION) {
             Object.assign(this, values);
         } else {
@@ -257,6 +261,10 @@ function validateOne(validator, value, propertyNameOrIdx, componentName, compone
     if (!validator(value, propertyNameOrIdx, componentName, component)) {
         throw new TypeError(formatError(value, componentName, propertyNameOrIdx));
     }
+}
+
+function throwMissingObject(value, keys) {
+    throw new TypeError("expected and object with keys: [" + keys.join(",") + "], but got: " + JSON.stringify(value))
 }
 
 
